@@ -33,35 +33,42 @@ const switchPlayer = function () {
 
 //  dice roll function
 const diceRoll = function () {
-  //  create random num 
-  const diceNum = Math.trunc(Math.random() * 6) + 1;
+  if (playGame) {
 
-  //  display dice
-  dice.classList.remove('hidden');
-  dice.src = `dice-${diceNum}.png`;
+    //  create random num 
+    const diceNum = Math.trunc(Math.random() * 6) + 1;
 
-  if (diceNum !== 1) {
-    //  add dice  to current score
-    currentScore += diceNum;
-    document.getElementById(`current--${activePlayer}`).textContent = currentScore;
-  } else {
-    switchPlayer();
+    //  display dice
+    dice.classList.remove('hidden');
+    dice.src = `dice-${diceNum}.png`;
+
+    if (diceNum !== 1) {
+      //  add dice  to current score
+      currentScore += diceNum;
+      document.getElementById(`current--${activePlayer}`).textContent = currentScore;
+    } else {
+      switchPlayer();
+    }
   }
+
 }
 
 //  hold score function
 const holdScore = function () {
-  //  add current score to active player
-  scores[activePlayer] += currentScore;
-  document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer];
+  if (playGame) {
+    //  add current score to active player
+    scores[activePlayer] += currentScore;
+    document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer];
 
-  //  check if result is above 100
-  if (scores[activePlayer] >= 100) {
-    //  finish game
-    document.querySelector(`.player--${activePlayer}`).classList.add('player--winner');
-    document.querySelector(`.player--${activePlayer}`).classList.remove('player--active');
+    //  check if result is above 100
+    if (scores[activePlayer] >= 100) {
+      //  finish game
+      playGame = false;
+      document.querySelector(`.player--${activePlayer}`).classList.add('player--winner');
+      document.querySelector(`.player--${activePlayer}`).classList.remove('player--active');
+    }
+    switchPlayer();
   }
-  switchPlayer();
 }
 
 
